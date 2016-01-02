@@ -18,20 +18,53 @@ public abstract class Entity {
 	protected String name;
 	
 	protected Action [] actions;
+	protected Action [] swapActions;
 	
-	public abstract Point render(float delta, SpriteBatch batch);
+	public abstract Point render(float delta, SpriteBatch batch, Point spritePos);
 	
-	protected Point getSpritePosition() {
-		// Entitie are offset from the center of the screen
-		int xOffset = position * (200);
-		int xPos;
-		if (team == 0) {
-			xPos = 800 - 100 - xOffset;
-		} else {
-			xPos = 800 + 100 + xOffset;
+	public int damage(int damage) {
+		// Damage should NEVER be negative
+		if (damage < 0) {
+			damage = 0;
 		}
 		
-		return new Point(xPos, 100);
+		// For now, damage directly reduces our health
+		curHealth -= damage;
+		if (curHealth < 0) {
+			curHealth = 0;
+		}
+		
+		// Return the health left
+		// This may be interesting to the action for some reason (shrug)
+		return curHealth;
+	}
+	
+	public Action getCPUAction() {
+		return actions[0];
+	}
+	
+	public Action [] getActions() {
+		return actions;
+	}
+	
+	public Action [] getSwapActions() {
+		return swapActions;
+	}
+	
+	public int getTeam() {
+		return team;
+	}
+	
+	public void setPosition(int position) {
+		this.position = position;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public boolean isDead() {
+		return this.curHealth <= 0;
 	}
 	
 }

@@ -6,27 +6,32 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.swap.action.Action;
 
-public class Skeleton extends Entity {
+public class Entity_Knight extends Entity {
 
-	private static final Sprite sprite = new Sprite(new Texture(Gdx.files.internal("textures/entity_sprites/skeleton.png")));
+	private static final Sprite sprite = new Sprite(new Texture(Gdx.files.internal("textures/entity_sprites/knight.png")));
 
-	public Skeleton(int team, int position) {
+	public Entity_Knight(int team, int position) {
 		this.team = team;
 		this.position = position;
+		this.name = "Knight";
 
-		this.maxHealth = 25;
+		this.maxHealth = 50;
 		this.curHealth = maxHealth;
+
+		// Set up the actions
+		this.actions = new Action[] {Action.ACTION_ATTACK};
+		this.swapActions = new Action[] {Action.ACTION_SWAP};
 	}
 
-	public Point render(float delta, SpriteBatch batch) {
+	public Point render(float delta, SpriteBatch batch, Point spritePos) {
 		// Are we drawing the enemy team
 		if (team == 1) {
 			sprite.flip(true, false);
 		}
 
 		// Get the position of this sprite
-		Point spritePos = this.getSpritePosition();
 		spritePos.x = (int) (spritePos.x - sprite.getWidth() / 2);
 
 		sprite.setPosition(spritePos.x, spritePos.y);
@@ -39,5 +44,4 @@ public class Skeleton extends Entity {
 
 		return spritePos;
 	}
-
 }
